@@ -18,7 +18,7 @@ function Tabela(vetor){
                     <td>{obj.preco}</td>
                     <td>{obj.distancia}</td>
                     <td className="btn btn-sucess">Selecionar</td>
-                </tr>
+                 </tr>
                 ))
             }
             </tbody>
