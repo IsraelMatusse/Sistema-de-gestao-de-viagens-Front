@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDisclosure } from '@mantine/hooks';
-import { Drawer } from '@mantine/core';
+import { Button, Drawer } from '@mantine/core';
 import axios from "axios";
 import { BASE_URL } from "../util/URL";
 import { Menu } from '@mantine/core';
@@ -44,7 +44,7 @@ const ExampleNavbar = function () {
 
   const logout = () => {
     localStorage.clear()
-    //navigate("/")
+    navigate("/")
     setIsUserLoggedIn(0)
   }
 
@@ -114,7 +114,7 @@ const ExampleNavbar = function () {
             <NavLink to={"/"} className="hidden lg:flex">
               <img alt="logotipo" src={sucursalLogotipo ? sucursalLogotipo : "/images/logo.svg"} className="mr-3 rounded-full sm:h-8 sm:w-8" />
               <span className="self-center whitespace-nowrap text-2xl font-semibold ">
-                FICA
+                SGV
               </span>
             </NavLink>
           </div>
@@ -124,7 +124,9 @@ const ExampleNavbar = function () {
               FICA
             </span>
           </NavLink>
+          
           <div className="flex items-center gap-3">
+
             {Object.keys(funcionarioSucursais).length !== 0 && <div className="hidden md:flex">
               <TextField
                 id="outlined-select-currency"
@@ -147,6 +149,7 @@ const ExampleNavbar = function () {
               </TextField>
             </div>}
             <Menu shadow="md" width={200}>
+
               {user?.email && <Menu.Target>
                 <div className="flex cursor-pointer items-center gap-3 rounded border px-3 py-2 hover:bg-gray-100">
                   <span className="hidden lg:flex">{user.email || "email"}</span>
