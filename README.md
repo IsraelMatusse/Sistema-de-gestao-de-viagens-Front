@@ -1,5 +1,5 @@
 # RESUMO
-Este é o front-end do projecto FICA, que usa React com Vite.
+Este é o front-end do projecto do sistema de gestao de viagens, que usa React com Vite.
 
 # REQUISITOS
 Para iniciar o projecto localmente é necessario ter o node instalado (com versão superior ou igual a 16).
