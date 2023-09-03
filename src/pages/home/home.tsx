@@ -7,11 +7,8 @@ export default function Home() {
                 <div className="mb-4 relative z-10 mt-4 flex items-center justify-between">
                     <div className="shrink-0">
                         <span className="text-2xl font-bold leading-none text-gray-900  sm:text-3xl">
-                            Bem-Vindo Ao FICA
+                            Bem-Vindo Ao Sistema de gestao de Viagens
                         </span>
-                        <h3 className="text-base font-normal text-gray-600 ">
-                            Framework Integrado
-                        </h3>
                     </div>
                 </div>
             </div>
