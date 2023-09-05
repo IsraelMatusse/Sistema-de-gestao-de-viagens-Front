@@ -10,3 +10,21 @@ textarea:focus, input:focus{
     border: transparent;
     @apply border-transparent focus:border-transparent focus:ring-0;
 }
+
+.container404{
+   background-color: rgba(62, 158, 210, 0.667);
+    
+}
+.content404{
+   margin: auto;
+}
+.container404 h1{
+    margin: auto;
+    color: blue ;
+}
+.content404 img{
+
+    margin: auto;
+    width: 630px;
+    height: 630px;
+}

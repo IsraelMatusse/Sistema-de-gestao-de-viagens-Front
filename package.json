@@ -51,7 +51,7 @@
     "embla-carousel-react": "^7.1.0",
     "flowbite": "^1.5.5",
     "flowbite-react": "^0.3.7",
-    "formik": "^2.2.9",
+    "formik": "^2.4.3",
     "jotai": "^2.0.4",
     "jwt-decode": "^3.1.2",
     "material-ui-chip-input": "^2.0.0-beta.2",
@@ -62,7 +62,7 @@
     "react-icons": "^4.7.1",
     "react-toastify": "^9.1.2",
     "yarn": "^1.22.19",
-    "yup": "^1.1.1"
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

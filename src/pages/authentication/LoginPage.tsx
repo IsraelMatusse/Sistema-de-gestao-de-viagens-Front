@@ -31,7 +31,7 @@ const LoginPage = function () {
       const token = res.data.data.access_token
       localStorage.setItem('token', token);
       setIsUserLogged(isUserLogged + 1)
-      navigate("fica/inicio")
+      navigate("sgv/inicio ")
     }).catch((err) => {
       if (err.response.status === 403) {
         error_server_side("Credênciais de autenticação inválidas!")
