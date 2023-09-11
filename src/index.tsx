@@ -18,7 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import Home from "./pages/home/home";
 import NotFoundPage from "./pages/Not-Found";
-import  Viagem from "./pages/viagem/Viagem";
+import CadastrarViagem from "./pages/viagem/CadastrarViagem";
 const container = document.getElementById("root");
 
 if (!container) {
@@ -43,10 +43,10 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path: "viagem",
-        element: <Viagem />
+        path: "viagens",
+        element: <CadastrarViagem />
       },
-      
+
     ]
   },
   {

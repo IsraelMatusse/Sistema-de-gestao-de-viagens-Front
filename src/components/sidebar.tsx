@@ -112,15 +112,23 @@ const ExampleSidebar = function () {
                     <Icon component={HiHome} /> Início
                   </NavLink>
 
-                
-              </Sidebar.ItemGroup>
-            </Sidebar.Items>
+                  <NavLink to={"viagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                    <Icon component={HiHome} /> Viagens
+                  </NavLink>
+
+                  <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                    <Icon component={HiHome} /> Passageiros
+                  </NavLink>
+
+
+                </Sidebar.ItemGroup>
+              </Sidebar.Items>
+            </div>
           </div>
-      </div>
-    </Sidebar>
+        </Sidebar>
       </div >
-  {/* Mobile */ }
-  <div>
+      {/* Mobile */}
+      <div>
 
       </div >
     </div >

@@ -11,6 +11,8 @@ import { IconLogin } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import { userLogged } from "../../components/navbar";
 import { TextField } from "@mui/material";
+import { POST } from "../../data/client/httpclient";
+import { API_ENDPOINTS } from "../../data/client/Endpoints";
 
 
 const LoginPage = function () {
@@ -24,22 +26,21 @@ const LoginPage = function () {
   });
 
   const login = (values: any, setSubmitting: any) => {
-    axios.post(`${BASE_URL}/auth/login`, values, {
-      timeout: 5000,
-    }).then((res) => {
-      setSubmitting(false)
-      const token = res.data.data.access_token
-      localStorage.setItem('token', token);
-      setIsUserLogged(isUserLogged + 1)
-      navigate("sgv/inicio ")
-    }).catch((err) => {
-      if (err.response.status === 403) {
-        error_server_side("Credênciais de autenticação inválidas!")
-      } else if( err.code === 'ECONNABORTED' ) {
-        error_server_side("O seu pedido expirou o tempo de processamento!")
-      }
-      setSubmitting(false)
-    })
+    POST(API_ENDPOINTS.LOGIN, values, false)
+      .then((res) => {
+        setSubmitting(false)
+        const token = res.data.data.access_token
+        localStorage.setItem('token', token);
+        setIsUserLogged(isUserLogged + 1)
+        navigate("sgv/inicio ")
+      }).catch((err) => {
+        if (err.response.status === 403) {
+          error_server_side("Credênciais de autenticação inválidas!")
+        } else if (err.code === 'ECONNABORTED') {
+          error_server_side("O seu pedido expirou o tempo de processamento!")
+        }
+        setSubmitting(false)
+      })
 
 
   }
