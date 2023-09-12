@@ -80,7 +80,7 @@ export default function CadastrarViagem() {
 
             <div className=" mt-4 block items-center justify-between border-b border-gray-200 bg-white p-4">
                 <div className="mt-7 flex w-full rounded p-4  ">
-                    <form onSubmit={cadastroViagemFormik.handleSubmit} className="flex w-full flex-col gap-4 shadow p-4">
+                    <form onSubmit={cadastroViagemFormik.handleSubmit} className="flex w-full flex-col gap-4 p-4 shadow">
                         <div className="">
                             <div className="flex w-full flex-col gap-4">
                                 <TextField

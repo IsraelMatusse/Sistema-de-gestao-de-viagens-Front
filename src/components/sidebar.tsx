@@ -4,6 +4,7 @@ import {
   HiHome,
   HiOutlineNewspaper,
   HiSearch,
+  HiUserGroup,
 } from "react-icons/hi";
 import {
   SlGraduation
@@ -38,6 +39,8 @@ import { Icon } from "@mui/material";
 import {
   BsCalendar2Event
 } from "react-icons/bs"
+import { GET } from "../data/client/httpclient";
+import { API_ENDPOINTS } from "../data/client/Endpoints";
 
 
 export const sessao = atom(false);
@@ -52,18 +55,15 @@ const ExampleSidebar = function () {
   const navigate = useNavigate()
 
   const getUserRoles = () => {
-    axios.get(`${BASE_URL}/usuarios/perfil`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem('token')
-      }
-    }).then((res) => {
-      setUserRoles(res.data.data.funcoes)
-    }).catch((err) => {
-      const error = err.response.data;
-      if (error.status_code === 401) {
-        navigate("/")
-      }
-    });
+    GET(API_ENDPOINTS.USER_ROLES, true)
+      .then((res) => {
+        setUserRoles(res.data.data.funcoes)
+      }).catch((err) => {
+        const error = err.response.data;
+        if (error.status_code === 401) {
+          navigate("/")
+        }
+      });
   }
 
   const getFuncionarioSucursais = () => {
@@ -92,11 +92,11 @@ const ExampleSidebar = function () {
   }, [])
 
   return (
-    <div>
-      <div className="hidden lg:flex ">
-        <Sidebar aria-label="Sidebar with multi-level dropdown example" >
-          <div className="flex h-full flex-col justify-between ">
-            <div>
+    <div className="">
+      <div className="hidden lg:flex">
+        <Sidebar color="purple">
+          <div className="flex h-full flex-col justify-between bg-teal-600 ">
+            <div >
               <form className="pb-3 md:hidden">
                 <TextInput
                   icon={HiSearch}
@@ -108,17 +108,51 @@ const ExampleSidebar = function () {
               </form>
               <Sidebar.Items>
                 <Sidebar.ItemGroup>
-                  <NavLink to={"inicio"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
-                    <Icon component={HiHome} /> Início
-                  </NavLink>
+                  {userRoles.map((roles) => (
+                    roles.name === "ROLE_ADMIN" ?
 
-                  <NavLink to={"viagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
-                    <Icon component={HiHome} /> Viagens
-                  </NavLink>
+                      <div key={roles.name} className="flex flex-col gap-1">
+                        <NavLink to={"inicio"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                          <Icon component={HiHome} /> Início
+                        </NavLink>
 
-                  <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
-                    <Icon component={HiHome} /> Passageiros
-                  </NavLink>
+                        <NavLink to={"terminais"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                          <Icon component={HiHome} /> Terminais
+                        </NavLink>
+
+                        <Sidebar.Collapse
+                          icon={HiUserGroup}
+                          label="Associações"
+                        >
+                          <NavLink to={"associacoes/cadastrar-associacoes"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiHome} /> Cadastrar Associações
+                          </NavLink>
+
+                          <NavLink to={"associacoes"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiHome} /> Listar Associações
+                          </NavLink>
+
+                        </Sidebar.Collapse>
+                      </div> :
+                      roles.name === "ROLE_ASSOCIACAO" ?
+                        <div key={roles.name}>
+                          <NavLink to={"inicio"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiHome} /> Início
+                          </NavLink>
+
+                          <NavLink to={"viagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiHome} /> Viagens
+                          </NavLink>
+
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiHome} /> Passageiros
+                          </NavLink>
+                        </div> :
+                        roles.name === "ROLE_TERMINAL" ?
+                          <div key={roles.name}>
+
+                          </div> : null
+                  ))}
 
 
                 </Sidebar.ItemGroup>

@@ -5,6 +5,7 @@ export const API_ENDPOINTS = {
     //autentication endpoints
     LOGIN: `${BASE_URL}/auth/login`,
     REGISTAR_USUARIO: `${BASE_URL}/auth/registar`,
+    USER_ROLES: `${BASE_URL}/usuarios/eu`,
 
 
     //gets without parameter 
@@ -21,11 +22,13 @@ export const API_ENDPOINTS = {
     LISTAR_ROTAS: `${BASE_URL}/rotas`,
     LISTAR_TODOS_VIAJANTES: `${BASE_URL}/viajantes`,
     LISTAR_VIATURAS: `${BASE_URL}/viaturas`,
+    LISTAR_TIPOS_LICENCA: `${BASE_URL}/tipos-licenca`,
 
 
     //post endpoints
 
-    CADASTRAR_VIAGEM: `${BASE_URL}/viagens/adicionar`
+    CADASTRAR_VIAGEM: `${BASE_URL}/viagens/adicionar`,
+    CADASTRAR_ASSOCIACOES: `${BASE_URL}/associacoes/adicionar`
 
 
 

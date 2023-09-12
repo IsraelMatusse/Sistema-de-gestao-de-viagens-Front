@@ -12,6 +12,8 @@ import { NavLink } from "react-router-dom";
 import type { SucursalFuncionario } from "../models/SucursalFuncionario";
 import { sucursalLogo, sucursalState, usuarioOnlineSucursalCodigo } from "../atom/ApplicationStateAtoms";
 import { MenuItem, TextField } from "@mui/material";
+import { GET } from "../data/client/httpclient";
+import { API_ENDPOINTS } from "../data/client/Endpoints";
 
 export const userLogged = atom(0)
 
@@ -30,21 +32,18 @@ const ExampleNavbar = function () {
   const navigate = useNavigate()
 
   const getMyProfile = () => {
-    axios.get(`${BASE_URL}/usuarios/perfil`, {
-      headers: {
-        "Authorization": "Bearer " + localStorage.getItem('token')
-      }
-    }).then((res) => {
-      setUser(res.data.data)
-    }).catch((err) => {
-      //navigate("/")
-      console.log(err)
-    });
+    GET(API_ENDPOINTS.USER_ROLES, true)
+      .then((res) => {
+        setUser(res.data.data)
+      }).catch((err) => {
+        navigate("/")
+        console.log(err)
+      });
   }
 
   const logout = () => {
     localStorage.clear()
-    //navigate("/")
+    navigate("/")
     setIsUserLoggedIn(0)
   }
 
@@ -75,7 +74,7 @@ const ExampleNavbar = function () {
   return (
     <nav className="w-full" >
       <div className="w-full">
-        <div className="fixed top-0 z-20 flex w-full items-center justify-between bg-white px-4 py-6 shadow">
+        <div className="fixed top-0 z-20 flex w-full items-center justify-between bg-teal-600 px-4 py-6 shadow">
           <div className="flex items-center gap-3 md:gap-0">
             <div className="flex lg:hidden">
               <Drawer opened={opened} onClose={close} size="75%">
@@ -113,14 +112,14 @@ const ExampleNavbar = function () {
             </div>
             <NavLink to={"/"} className="hidden lg:flex">
               <img alt="logotipo" src={sucursalLogotipo ? sucursalLogotipo : "/images/logo.svg"} className="mr-3 rounded-full sm:h-8 sm:w-8" />
-              <span className="self-center whitespace-nowrap text-2xl font-semibold ">
-                FICA
+              <span className="self-center whitespace-nowrap text-white text-2xl font-semibold ">
+                SGV
               </span>
             </NavLink>
           </div>
           <NavLink to={"/"} className="flex items-center lg:hidden">
             <img alt="" src="/images/logo.svg" className="mr-3 h-6 sm:h-8" />
-            <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+            <span className="self-center text-white whitespace-nowrap text-2xl font-semibold dark:text-white">
               FICA
             </span>
           </NavLink>

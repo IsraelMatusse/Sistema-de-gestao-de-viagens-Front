@@ -19,6 +19,7 @@ import { blue } from "@mui/material/colors";
 import Home from "./pages/home/home";
 import NotFoundPage from "./pages/Not-Found";
 import CadastrarViagem from "./pages/viagem/CadastrarViagem";
+import CadastrarAssociacao from "./pages/associacoes/cadastrarAssociacao";
 const container = document.getElementById("root");
 
 if (!container) {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "viagens",
         element: <CadastrarViagem />
+      },
+      {
+        path: "associacoes/cadastrar-associacoes",
+        element: <CadastrarAssociacao />
       },
 
     ]

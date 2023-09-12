@@ -42,10 +42,10 @@ const flowbiteTheme: CustomFlowbiteTheme = {
     },
   },
   navbar: {
-    base: "fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700",
+    base: "fixed z-30 w-full bg-teal-600 border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700",
   },
   sidebar: {
-    base: "flex fixed top-0 left-0 z-20 flex-col flex-shrink-0 pt-16 h-full duration-75 border-r border-gray-200 lg:flex transition-width dark:border-gray-700",
+    base: "flex fixed top-0 left-0 z-20 flex-col flex-shrink-0 pt-16 h-full duration-75 border-r border-teal-200 lg:flex transition-width dark:border-gray-700",
   },
   textarea: {
     base: "block w-full text-sm p-4 rounded-lg border disabled:cursor-not-allowed disabled:opacity-50",
