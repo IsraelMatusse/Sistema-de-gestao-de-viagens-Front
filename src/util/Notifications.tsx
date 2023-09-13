@@ -26,7 +26,7 @@ export const error_client_side = (message: string) =>
 
 export const success_server_side = (message: string) =>
     toast.success(message, {
-        position: "bottom-left",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: true,
         closeOnClick: true,

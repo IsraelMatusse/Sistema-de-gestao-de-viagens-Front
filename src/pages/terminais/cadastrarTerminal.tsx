@@ -12,43 +12,42 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import type { TipoLicenca } from "../../models/TipoLicenca";
 import type { Rota } from "../../models/Rota";
 import { PHONEREGEX } from "../../util/PhoneRegex";
+import type { Provincias } from "../../models/Provincias";
 
 
 
-const CadastrarAssociacao = function () {
-    const [tiposLicenca, setTiposLicenca] = useState<TipoLicenca[]>([]);
+const CadastrarTerminal = function () {
+    const [provincias, setProvincias] = useState<Provincias[]>([]);
     const [rotas, setRotas] = useState<Rota[]>([]);
 
-    const cadastroAssociacaoSchema = Yup.object().shape({
+    const cadastrarTerminalSchema = Yup.object().shape({
         designacao: Yup.string().required(),
-        msisdn: Yup.string().matches(PHONEREGEX, "Número inválido"),
-        numero_licenca: Yup.string().required(),
-        data_validade: Yup.date().required(),
-        tipo_licenca: Yup.string().required(),
-        email_associacao: Yup.string().email().required(),
-        rotas: Yup.array()
+        msisdn: Yup.string().matches(PHONEREGEX, "Número Inválido"),
+        email: Yup.string().email().required(),
+        nuit: Yup.number().min(9, "O NUIT deve ter 9 dígitos").max(9, "O NUIT deve ter 9 dígitos"),
+        codigo_provincia: Yup.number().required(),
+        codigo_distrito: Yup.number().required(),
     })
 
-    const cadastrarAssociacaoFormik = useFormik({
+    const cadastrarTerminalFormik = useFormik({
         initialValues: {
             designacao: null,
             msisdn: null,
-            numero_licenca: null,
-            data_validade: null,
-            tipo_licenca: null,
-            email_associacao: null,
-            rotas: []
-        }, validationSchema: cadastroAssociacaoSchema,
+            email: null,
+            nuit: null,
+            codigo_provincia: null,
+            codigo_distrito: null,
+        }, validationSchema: cadastrarTerminalSchema,
         onSubmit(values, { setSubmitting, resetForm }) {
-            cadastrarAssociacaoPost(values, setSubmitting, resetForm);
+            cadastrarTerminalPost(values, setSubmitting, resetForm);
         },
 
     })
 
-    const cadastrarAssociacaoPost = (values: any, SetSubmitting: any, ResetForm: any) => {
-        POST(API_ENDPOINTS.CADASTRAR_ASSOCIACAO, values, true)
+    const cadastrarTerminalPost = (values: any, SetSubmitting: any, ResetForm: any) => {
+        POST(API_ENDPOINTS.CADASTRAR_TERMINAL, values, true)
             .then(() => {
-                success_server_side("Associacao Cadastrada!")
+                success_server_side("Terminal Cadastrada!")
                 SetSubmitting(false)
                 ResetForm
             })
@@ -59,10 +58,10 @@ const CadastrarAssociacao = function () {
             })
     }
 
-    const getTiposLicenca = () => {
-        GET(API_ENDPOINTS.LISTAR_TIPOS_LICENCA, true)
+    const getProvincias = () => {
+        GET(API_ENDPOINTS.LISTAR_PROVINCIAS, true)
             .then((res) => {
-                setTiposLicenca(res.data.data)
+                setProvincias(res.data.data)
             })
             .catch((err) => {
                 console.log(err)
@@ -81,7 +80,7 @@ const CadastrarAssociacao = function () {
 
 
     useEffect(() => {
-        getTiposLicenca()
+        getProvincias()
         getRotas()
     }, [])
 
@@ -95,16 +94,16 @@ const CadastrarAssociacao = function () {
                         </h1>
                     </div>
                     <div className="mt-7 flex w-full">
-                        <form onSubmit={cadastrarAssociacaoFormik.handleSubmit} className="flex w-full flex-col gap-5">
+                        <form onSubmit={cadastrarTerminalFormik.handleSubmit} className="flex w-full flex-col gap-5">
                             <div className="">
                                 <div className="flex w-full flex-col gap-4">
                                     <TextField
                                         size="small"
-                                        onChange={cadastrarAssociacaoFormik.handleChange}
-                                        onBlur={cadastrarAssociacaoFormik.handleBlur}
-                                        value={cadastrarAssociacaoFormik.values.designacao}
-                                        error={cadastrarAssociacaoFormik.errors.designacao && cadastrarAssociacaoFormik.touched.designacao ? true : false}
-                                        helperText={cadastrarAssociacaoFormik.errors.designacao && cadastrarAssociacaoFormik.touched.designacao && "Coloque uma designação válida"}
+                                        onChange={cadastrarTerminalFormik.handleChange}
+                                        onBlur={cadastrarTerminalFormik.handleBlur}
+                                        value={cadastrarTerminalFormik.values.designacao}
+                                        error={cadastrarTerminalFormik.errors.designacao && cadastrarTerminalFormik.touched.designacao ? true : false}
+                                        helperText={cadastrarTerminalFormik.errors.designacao && cadastrarTerminalFormik.touched.designacao && "Coloque uma designação válida"}
                                         name="designacao"
                                         fullWidth
                                         label="Designação do Departamento"
@@ -115,15 +114,15 @@ const CadastrarAssociacao = function () {
                                         size="small"
                                         select
                                         fullWidth
-                                        onChange={cadastrarAssociacaoFormik.handleChange}
-                                        onBlur={cadastrarAssociacaoFormik.handleBlur}
-                                        value={cadastrarAssociacaoFormik.values.tipo_licenca}
-                                        error={cadastrarAssociacaoFormik.errors.tipo_licenca && cadastrarAssociacaoFormik.touched.tipo_licenca ? true : false}
-                                        helperText={cadastrarAssociacaoFormik.errors.tipo_licenca && cadastrarAssociacaoFormik.touched.tipo_licenca && "Seleccione a sucural!"}
+                                        onChange={cadastrarTerminalFormik.handleChange}
+                                        onBlur={cadastrarTerminalFormik.handleBlur}
+                                        value={cadastrarTerminalFormik.values.tipo_licenca}
+                                        error={cadastrarTerminalFormik.errors.tipo_licenca && cadastrarTerminalFormik.touched.tipo_licenca ? true : false}
+                                        helperText={cadastrarTerminalFormik.errors.tipo_licenca && cadastrarTerminalFormik.touched.tipo_licenca && "Seleccione a sucural!"}
                                         name="tipo_licenca"
                                         label="Tipo de Licença"
                                     >
-                                        {tiposLicenca.map((option) => (
+                                        {provincias.map((option) => (
                                             <MenuItem key={option.id} value={option.id}>
                                                 {option.designacao}
                                             </MenuItem>
@@ -134,11 +133,11 @@ const CadastrarAssociacao = function () {
                                         <div className="flex basis-2/4">
                                             <TextField
                                                 size="small"
-                                                onChange={cadastrarAssociacaoFormik.handleChange}
-                                                onBlur={cadastrarAssociacaoFormik.handleBlur}
-                                                value={cadastrarAssociacaoFormik.values.numero_licenca}
-                                                error={cadastrarAssociacaoFormik.errors.numero_licenca && cadastrarAssociacaoFormik.touched.numero_licenca ? true : false}
-                                                helperText={cadastrarAssociacaoFormik.errors.numero_licenca && cadastrarAssociacaoFormik.touched.numero_licenca && "Coloque uma Número de Licença válido"}
+                                                onChange={cadastrarTerminalFormik.handleChange}
+                                                onBlur={cadastrarTerminalFormik.handleBlur}
+                                                value={cadastrarTerminalFormik.values.numero_licenca}
+                                                error={cadastrarTerminalFormik.errors.numero_licenca && cadastrarTerminalFormik.touched.numero_licenca ? true : false}
+                                                helperText={cadastrarTerminalFormik.errors.numero_licenca && cadastrarTerminalFormik.touched.numero_licenca && "Coloque uma Número de Licença válido"}
                                                 name="numero_licenca"
                                                 fullWidth
                                                 label="Número Licença"
@@ -155,7 +154,7 @@ const CadastrarAssociacao = function () {
                                                     slotProps={{ textField: { size: 'small' } }}
                                                     onChange={(newValue: any) => {
                                                         const dataValidade = newValue.$d.toISOString();
-                                                        cadastrarAssociacaoFormik.setFieldValue("data_validade", dataValidade)
+                                                        cadastrarTerminalFormik.setFieldValue("data_validade", dataValidade)
                                                     }} />
 
                                             </LocalizationProvider>
@@ -167,11 +166,11 @@ const CadastrarAssociacao = function () {
 
                                     <TextField
                                         size="small"
-                                        onChange={cadastrarAssociacaoFormik.handleChange}
-                                        onBlur={cadastrarAssociacaoFormik.handleBlur}
-                                        value={cadastrarAssociacaoFormik.values.email_associacao}
-                                        error={cadastrarAssociacaoFormik.errors.email_associacao && cadastrarAssociacaoFormik.touched.email_associacao ? true : false}
-                                        helperText={cadastrarAssociacaoFormik.errors.email_associacao && cadastrarAssociacaoFormik.touched.email_associacao && "Coloque um e-mail válido"}
+                                        onChange={cadastrarTerminalFormik.handleChange}
+                                        onBlur={cadastrarTerminalFormik.handleBlur}
+                                        value={cadastrarTerminalFormik.values.email_associacao}
+                                        error={cadastrarTerminalFormik.errors.email_associacao && cadastrarTerminalFormik.touched.email_associacao ? true : false}
+                                        helperText={cadastrarTerminalFormik.errors.email_associacao && cadastrarTerminalFormik.touched.email_associacao && "Coloque um e-mail válido"}
                                         name="email_associacao"
                                         fullWidth
                                         label="E-mail da Associação"
@@ -179,11 +178,11 @@ const CadastrarAssociacao = function () {
 
                                     <TextField
                                         size="small"
-                                        onChange={cadastrarAssociacaoFormik.handleChange}
-                                        onBlur={cadastrarAssociacaoFormik.handleBlur}
-                                        value={cadastrarAssociacaoFormik.values.msisdn}
-                                        error={cadastrarAssociacaoFormik.errors.msisdn && cadastrarAssociacaoFormik.touched.msisdn ? true : false}
-                                        helperText={cadastrarAssociacaoFormik.errors.msisdn && cadastrarAssociacaoFormik.touched.msisdn && "Coloque uma contacto válido"}
+                                        onChange={cadastrarTerminalFormik.handleChange}
+                                        onBlur={cadastrarTerminalFormik.handleBlur}
+                                        value={cadastrarTerminalFormik.values.msisdn}
+                                        error={cadastrarTerminalFormik.errors.msisdn && cadastrarTerminalFormik.touched.msisdn ? true : false}
+                                        helperText={cadastrarTerminalFormik.errors.msisdn && cadastrarTerminalFormik.touched.msisdn && "Coloque uma contacto válido"}
                                         name="msisdn"
                                         fullWidth
                                         label="Número de Telefone"
@@ -193,7 +192,7 @@ const CadastrarAssociacao = function () {
                                         size="small"
                                         multiple
                                         onChange={(event, values) => {
-                                            cadastrarAssociacaoFormik.setFieldValue("rotas", values)
+                                            cadastrarTerminalFormik.setFieldValue("rotas", values)
                                         }}
                                         id="tags-outlined"
                                         options={rotas.map((option: Rota) => option.nomerota)}
@@ -210,7 +209,7 @@ const CadastrarAssociacao = function () {
 
                                 </div>
                             </div>
-                            <LoadingButton type="submit" variant="contained" loading={cadastrarAssociacaoFormik.isSubmitting} disableElevation={true} disabled={!cadastrarAssociacaoFormik.isValid}>
+                            <LoadingButton type="submit" variant="contained" loading={cadastrarTerminalFormik.isSubmitting} disableElevation={true} disabled={!cadastrarTerminalFormik.isValid}>
                                 Cadastrar Associação
                             </LoadingButton>
                         </form>
@@ -221,4 +220,4 @@ const CadastrarAssociacao = function () {
     )
 
 }
-export default CadastrarAssociacao
+export default CadastrarTerminal

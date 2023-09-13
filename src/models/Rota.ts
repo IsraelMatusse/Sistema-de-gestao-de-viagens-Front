@@ -1,5 +1,7 @@
 export interface Rota {
-    nome_rota: string,
+    id: number,
+    nomerota: string,
     distancia: number,
-    preco: number
+    preco: number,
+    codigo: string
 }

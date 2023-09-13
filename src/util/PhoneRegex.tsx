@@ -1,0 +1,1 @@
+export const PHONEREGEX = /^8[2-7]{1}\d{7}$/

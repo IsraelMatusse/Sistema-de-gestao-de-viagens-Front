@@ -28,7 +28,8 @@ export const API_ENDPOINTS = {
     //post endpoints
 
     CADASTRAR_VIAGEM: `${BASE_URL}/viagens/adicionar`,
-    CADASTRAR_ASSOCIACOES: `${BASE_URL}/associacoes/adicionar`
+    CADASTRAR_ASSOCIACAO: `${BASE_URL}/associacoes/adicionar`,
+    CADASTRAR_TERMINAL: `${BASE_URL}/terminais`
 
 
 
