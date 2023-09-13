@@ -15,7 +15,6 @@ export const API_ENDPOINTS = {
     VIAGENS_DO_DIA: `${BASE_URL}/viagens/hoje`,
     MODELOS_VIATURAS: `${BASE_URL}/modelos`,
     LISTAR_ASSOCIACOES: `${BASE_URL}/associacoes`,
-    LISTAR_DISTRITOS: `${BASE_URL}/distritos`,
     LISTAR_GENEROS: `${BASE_URL}/generos`,
     LISTAR_PROPRIETARIOS: `${BASE_URL}/proprietarios`,
     LISTAR_PROVINCIAS: `${BASE_URL}/provincias`,
@@ -23,7 +22,10 @@ export const API_ENDPOINTS = {
     LISTAR_TODOS_VIAJANTES: `${BASE_URL}/viajantes`,
     LISTAR_VIATURAS: `${BASE_URL}/viaturas`,
     LISTAR_TIPOS_LICENCA: `${BASE_URL}/tipos-licenca`,
+    LISTAR_DISTRITOS: `${BASE_URL}/distritos`,
 
+    //get with params
+    LISTAR_DISTRITOS_DA_PROVINCIA: (codigo_provincia: number) => `${BASE_URL}/distritos/p/${codigo_provincia}`,
 
     //post endpoints
 

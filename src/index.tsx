@@ -21,6 +21,7 @@ import NotFoundPage from "./pages/Not-Found";
 import CadastrarViagem from "./pages/viagem/CadastrarViagem";
 import CadastrarAssociacao from "./pages/associacoes/cadastrarAssociacao";
 import Associacoes from "./pages/associacoes/listarAssociacao";
+import CadastrarTerminal from "./pages/terminais/cadastrarTerminal";
 
 
 const container = document.getElementById("root");
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "associacoes",
         element: <Associacoes />
+      },
+      {
+        path: "terminais/cadastrar",
+        element: <CadastrarTerminal />
       },
 
     ]

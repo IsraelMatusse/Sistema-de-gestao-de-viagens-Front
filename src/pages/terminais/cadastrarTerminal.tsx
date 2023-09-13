@@ -13,11 +13,13 @@ import type { TipoLicenca } from "../../models/TipoLicenca";
 import type { Rota } from "../../models/Rota";
 import { PHONEREGEX } from "../../util/PhoneRegex";
 import type { Provincias } from "../../models/Provincias";
+import { Distrito } from "../../models/Distrito";
 
 
 
 const CadastrarTerminal = function () {
     const [provincias, setProvincias] = useState<Provincias[]>([]);
+    const [distrito, setDistrito] = useState<Distrito[]>([])
     const [rotas, setRotas] = useState<Rota[]>([]);
 
     const cadastrarTerminalSchema = Yup.object().shape({
@@ -67,6 +69,15 @@ const CadastrarTerminal = function () {
                 console.log(err)
             })
     }
+    const getDistritos = (codigo_provincia: any) => {
+        GET(API_ENDPOINTS.LISTAR_DISTRITOS_DA_PROVINCIA(codigo_provincia), true)
+            .then((res) => {
+                setDistrito(res.data.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
     const getRotas = () => {
         GET(API_ENDPOINTS.LISTAR_ROTAS, true)
@@ -106,8 +117,43 @@ const CadastrarTerminal = function () {
                                         helperText={cadastrarTerminalFormik.errors.designacao && cadastrarTerminalFormik.touched.designacao && "Coloque uma designação válida"}
                                         name="designacao"
                                         fullWidth
-                                        label="Designação do Departamento"
+                                        label="Designação"
                                     />
+
+                                    <TextField
+                                        size="small"
+                                        onChange={cadastrarTerminalFormik.handleChange}
+                                        onBlur={cadastrarTerminalFormik.handleBlur}
+                                        value={cadastrarTerminalFormik.values.nuit}
+                                        error={cadastrarTerminalFormik.errors.nuit && cadastrarTerminalFormik.touched.nuit ? true : false}
+                                        helperText={cadastrarTerminalFormik.errors.nuit && cadastrarTerminalFormik.touched.nuit && "Coloque uma Número de Licença válido"}
+                                        name="nuit"
+                                        fullWidth
+                                        label="NUIT"
+                                    />
+
+                                    <TextField
+                                        id="outlined-select-currency"
+                                        size="small"
+                                        select
+                                        fullWidth
+                                        onChange={(e) => {
+                                            getDistritos(e.target.value)
+                                            cadastrarTerminalFormik.setFieldValue("codigo_provincia", e.target.value)
+                                        }}
+                                        onBlur={cadastrarTerminalFormik.handleBlur}
+                                        value={cadastrarTerminalFormik.values.codigo_provincia}
+                                        error={cadastrarTerminalFormik.errors.codigo_provincia && cadastrarTerminalFormik.touched.codigo_provincia ? true : false}
+                                        helperText={cadastrarTerminalFormik.errors.codigo_provincia && cadastrarTerminalFormik.touched.codigo_provincia && "Seleccione a Província"}
+                                        name="codigo_provincia"
+                                        label="Província"
+                                    >
+                                        {provincias.map((option) => (
+                                            <MenuItem key={option.codigo} value={option.codigo}>
+                                                {option.designacao}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
 
                                     <TextField
                                         id="outlined-select-currency"
@@ -116,14 +162,14 @@ const CadastrarTerminal = function () {
                                         fullWidth
                                         onChange={cadastrarTerminalFormik.handleChange}
                                         onBlur={cadastrarTerminalFormik.handleBlur}
-                                        value={cadastrarTerminalFormik.values.tipo_licenca}
-                                        error={cadastrarTerminalFormik.errors.tipo_licenca && cadastrarTerminalFormik.touched.tipo_licenca ? true : false}
-                                        helperText={cadastrarTerminalFormik.errors.tipo_licenca && cadastrarTerminalFormik.touched.tipo_licenca && "Seleccione a sucural!"}
-                                        name="tipo_licenca"
-                                        label="Tipo de Licença"
+                                        value={cadastrarTerminalFormik.values.codigo_distrito}
+                                        error={cadastrarTerminalFormik.errors.codigo_distrito && cadastrarTerminalFormik.touched.codigo_distrito ? true : false}
+                                        helperText={cadastrarTerminalFormik.errors.codigo_distrito && cadastrarTerminalFormik.touched.codigo_distrito && "Seleccione o Distrito!"}
+                                        name="codigo_distrito"
+                                        label="Distrito"
                                     >
-                                        {provincias.map((option) => (
-                                            <MenuItem key={option.id} value={option.id}>
+                                        {distrito.map((option) => (
+                                            <MenuItem key={option.codigo} value={option.codigo}>
                                                 {option.designacao}
                                             </MenuItem>
                                         ))}
@@ -131,17 +177,7 @@ const CadastrarTerminal = function () {
 
                                     <div className="flex flex-row gap-4">
                                         <div className="flex basis-2/4">
-                                            <TextField
-                                                size="small"
-                                                onChange={cadastrarTerminalFormik.handleChange}
-                                                onBlur={cadastrarTerminalFormik.handleBlur}
-                                                value={cadastrarTerminalFormik.values.numero_licenca}
-                                                error={cadastrarTerminalFormik.errors.numero_licenca && cadastrarTerminalFormik.touched.numero_licenca ? true : false}
-                                                helperText={cadastrarTerminalFormik.errors.numero_licenca && cadastrarTerminalFormik.touched.numero_licenca && "Coloque uma Número de Licença válido"}
-                                                name="numero_licenca"
-                                                fullWidth
-                                                label="Número Licença"
-                                            />
+
                                         </div>
 
                                         <div className="flex basis-2/4">
