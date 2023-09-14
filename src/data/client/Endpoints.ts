@@ -6,7 +6,7 @@ export const API_ENDPOINTS = {
     LOGIN: `${BASE_URL}/auth/login`,
     REGISTAR_USUARIO: `${BASE_URL}/auth/registar`,
     USER_ROLES: `${BASE_URL}/usuarios/eu`,
-
+    ASSOCIACAO_ONLINE: `${BASE_URL}/associacoes/perfil`,
 
     //gets without parameter 
     LISTAR_VIAGENS: `${BASE_URL}/viagens`,
@@ -21,10 +21,12 @@ export const API_ENDPOINTS = {
     LISTAR_ROTAS: `${BASE_URL}/rotas`,
     LISTAR_TODOS_VIAJANTES: `${BASE_URL}/viajantes`,
     LISTAR_VIATURAS: `${BASE_URL}/viaturas`,
+    LISTAR_MOTORISTAS: `${BASE_URL}/motoristas`,
     LISTAR_TIPOS_LICENCA: `${BASE_URL}/tipos-licenca`,
     LISTAR_DISTRITOS: `${BASE_URL}/distritos`,
 
     //get with params
+    ASSOCIACAO_VIATURA: (codigo_associacao) => `${BASE_URL}/associacoes/viaturas?codigoAssociacao=${codigo_associacao}`,
     LISTAR_DISTRITOS_DA_PROVINCIA: (codigo_provincia: number) => `${BASE_URL}/distritos/p/${codigo_provincia}`,
 
     //post endpoints

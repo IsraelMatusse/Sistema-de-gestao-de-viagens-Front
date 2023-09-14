@@ -14,6 +14,7 @@ export interface Viatura {
     codigo_rota: string,
     codigo_associacao: string,
     codigo_proprietario: string,
-    associacao: string,
-    proprietario: string
+    designacao_associacao: string,
+    nome_proprietario: string,
+    codigo: string
 }

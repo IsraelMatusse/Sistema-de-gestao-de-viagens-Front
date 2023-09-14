@@ -22,6 +22,8 @@ import CadastrarViagem from "./pages/viagem/CadastrarViagem";
 import CadastrarAssociacao from "./pages/associacoes/cadastrarAssociacao";
 import Associacoes from "./pages/associacoes/listarAssociacao";
 import CadastrarTerminal from "./pages/terminais/cadastrarTerminal";
+import ListarViagens from "./pages/viagem/listarViagens";
+import DetalhesViagem from "./pages/viagem/detalhesViagem";
 
 
 const container = document.getElementById("root");
@@ -49,7 +51,15 @@ const router = createBrowserRouter([
       },
       {
         path: "viagens",
+        element: <ListarViagens />
+      },
+      {
+        path: "viagens/cadastrar-viagem",
         element: <CadastrarViagem />
+      },
+      {
+        path: "viagens/:codigo/detalhes",
+        element: <DetalhesViagem />
       },
       {
         path: "associacoes/cadastrar-associacoes",

@@ -1,9 +1,7 @@
 
 export interface Viagem {
     destino_viagem: string,
-    saida: Date,
-    prev_chegada: Date,
-    rota: string,
-    associacao: string,
-    codigo_associacao: string
+    saida: string,
+    prev_chegada: string,
+    codigo_viagem: string,
 }

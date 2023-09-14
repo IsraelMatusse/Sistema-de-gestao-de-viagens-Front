@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 
-export const usuarioOnlineSucursalCodigo = atom("")
+export const usuarioOnlineAssociacaoCodigo = atom("")
 export const sucursalState = atom(0)
 export const funcionarioState = atom(0)
 export const disciplinaStateObj = atom(0)

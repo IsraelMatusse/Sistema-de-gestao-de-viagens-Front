@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 import { BiUser } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
 import type { SucursalFuncionario } from "../models/SucursalFuncionario";
-import { sucursalLogo, sucursalState, usuarioOnlineSucursalCodigo } from "../atom/ApplicationStateAtoms";
+import { sucursalLogo, sucursalState, usuarioOnlineAssociacaoCodigo } from "../atom/ApplicationStateAtoms";
 import { MenuItem, TextField } from "@mui/material";
 import { GET } from "../data/client/httpclient";
 import { API_ENDPOINTS } from "../data/client/Endpoints";
@@ -18,15 +18,15 @@ import { API_ENDPOINTS } from "../data/client/Endpoints";
 export const userLogged = atom(0)
 
 interface simpleUser {
-  email: string
+  username: string
 }
 
 const ExampleNavbar = function () {
   const [opened, { open, close }] = useDisclosure(false);
   const [user, setUser] = useState<simpleUser>();
+
   const [isUserLoggedIn, setIsUserLoggedIn] = useAtom(userLogged);
-  const [funcionarioSucursais, setFuncionarioSucursais] = useState<SucursalFuncionario[]>([]);
-  const [codigoSucursal, setCodigoSucursal] = useAtom(usuarioOnlineSucursalCodigo)
+  const [codigoAssociacao, setCodigoAssociacao] = useAtom(usuarioOnlineAssociacaoCodigo)
   const [sucursalLogotipo, setSucursalLogotipo] = useAtom(sucursalLogo)
   const [sucursalChanged] = useAtom(sucursalState);
   const navigate = useNavigate()
@@ -34,7 +34,9 @@ const ExampleNavbar = function () {
   const getMyProfile = () => {
     GET(API_ENDPOINTS.USER_ROLES, true)
       .then((res) => {
-        setUser(res.data.data)
+        setUser(res.data.data.username)
+
+        //console.log(res.data.data)
       }).catch((err) => {
         navigate("/")
         console.log(err)
@@ -47,28 +49,24 @@ const ExampleNavbar = function () {
     setIsUserLoggedIn(0)
   }
 
-  const getFuncionarioSucursais = () => {
-    axios
-      .get(`${BASE_URL}/funcionarios/eu/sucursais`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
+  const getAssociacaotipo = () => {
+    GET(API_ENDPOINTS.ASSOCIACAO_ONLINE, true)
+      .then((res) => {
+        setCodigoAssociacao(res.data.data.codigo);
       })
-      .then((res: any) => {
-        setFuncionarioSucursais(res.data.data);
+      .catch((err) => {
+
       })
-      .catch((err: any) => {
-        console.log(err);
-      });
-  };
+  }
 
   useEffect(() => {
+    getAssociacaotipo()
     getMyProfile()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUserLoggedIn])
 
   useEffect(() => {
-    getFuncionarioSucursais()
+
   }, [sucursalChanged])
 
   return (
@@ -79,29 +77,7 @@ const ExampleNavbar = function () {
             <div className="flex lg:hidden">
               <Drawer opened={opened} onClose={close} size="75%">
                 {/* Drawer content */}
-                <div className="mt-7 w-full flex-col">
-                  {Object.keys(funcionarioSucursais).length !== 0 && <div className="w-full">
-                    <TextField
-                      id="outlined-select-currency"
-                      size="small"
-                      className="w-48"
-                      select
-                      onChange={(event) => {
-                        setCodigoSucursal(event.target.value);
-                        const logoArray = funcionarioSucursais.map(sucursal => sucursal.codigo_sucursal === event.target.value ? sucursal.logotipo : null)
-                        setSucursalLogotipo(logoArray[0])
-                      }}
-                      name="sucursal_codigo"
-                      label="Sucursal"
-                    >
-                      {funcionarioSucursais.map((option) => (
-                        <MenuItem key={option.codigo_sucursal} value={option.codigo_sucursal}>
-                          {option.nome_sucursal}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </div>}
-                </div>
+
               </Drawer>
               <svg onClick={open} className="w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -112,43 +88,23 @@ const ExampleNavbar = function () {
             </div>
             <NavLink to={"/"} className="hidden lg:flex">
               <img alt="logotipo" src={sucursalLogotipo ? sucursalLogotipo : "/images/logo.svg"} className="mr-3 rounded-full sm:h-8 sm:w-8" />
-              <span className="self-center whitespace-nowrap text-white text-2xl font-semibold ">
+              <span className="self-center whitespace-nowrap text-2xl font-semibold text-white ">
                 SGV
               </span>
             </NavLink>
           </div>
           <NavLink to={"/"} className="flex items-center lg:hidden">
             <img alt="" src="/images/logo.svg" className="mr-3 h-6 sm:h-8" />
-            <span className="self-center text-white whitespace-nowrap text-2xl font-semibold dark:text-white">
+            <span className="self-center whitespace-nowrap text-2xl font-semibold text-white dark:text-white">
               FICA
             </span>
           </NavLink>
-          <div className="flex items-center gap-3">
-            {Object.keys(funcionarioSucursais).length !== 0 && <div className="hidden md:flex">
-              <TextField
-                id="outlined-select-currency"
-                size="small"
-                className="w-48"
-                select
-                onChange={(event) => {
-                  setCodigoSucursal(event.target.value);
-                  const logoArray = funcionarioSucursais.map(sucursal => sucursal.codigo_sucursal === event.target.value ? sucursal.logotipo : null)
-                  setSucursalLogotipo(logoArray[0])
-                }}
-                name="sucursal_codigo"
-                label="Sucursal"
-              >
-                {funcionarioSucursais.map((option) => (
-                  <MenuItem key={option.codigo_sucursal} value={option.codigo_sucursal}>
-                    {option.nome_sucursal}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>}
+          <div className="flex items-center gap-3 bg-primary-600">
+
             <Menu shadow="md" width={200}>
-              {user?.email && <Menu.Target>
+              {user?.username && <Menu.Target>
                 <div className="flex cursor-pointer items-center gap-3 rounded border px-3 py-2 hover:bg-gray-100">
-                  <span className="hidden lg:flex">{user.email || "email"}</span>
+                  <span className="hidden lg:flex">{user.username || "email"}</span>
                   <BiUser className="h-6 w-6" />
                 </div>
               </Menu.Target>}

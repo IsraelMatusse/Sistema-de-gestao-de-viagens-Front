@@ -10,7 +10,7 @@ import {
   SlGraduation
 } from "react-icons/sl"
 import {
-  BiBuildings
+  BiBuildings, BiUser
 } from "react-icons/bi"
 import {
   FaUserGraduate, FaStopwatch
@@ -41,12 +41,20 @@ import {
 } from "react-icons/bs"
 import { GET } from "../data/client/httpclient";
 import { API_ENDPOINTS } from "../data/client/Endpoints";
+import { Menu } from "@mantine/core";
+import { IconLogout, IconUser } from "@tabler/icons-react";
+import { userLogged } from "./navbar";
 
+interface simpleUser {
+  username: string
+}
 
 export const sessao = atom(false);
 
 const ExampleSidebar = function () {
   const [userRoles, setUserRoles] = useState<Role[]>([])
+  const [user, setUser] = useState<simpleUser>();
+  const [isUserLoggedIn, setIsUserLoggedIn] = useAtom(userLogged);
   const [funcionarioSucursais, setFuncionarioSucursais] = useState<SucursalFuncionario[]>([])
   const [loadingSucursal, setLoadingSucursal] = useState(true);
 
@@ -58,6 +66,8 @@ const ExampleSidebar = function () {
     GET(API_ENDPOINTS.USER_ROLES, true)
       .then((res) => {
         setUserRoles(res.data.data.funcoes)
+        setUser(res.data.data.username)
+        console.log(res)
       }).catch((err) => {
         const error = err.response.data;
         if (error.status_code === 401) {
@@ -90,6 +100,12 @@ const ExampleSidebar = function () {
     getUserRoles()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const logout = () => {
+    localStorage.clear()
+    navigate("/")
+    setIsUserLoggedIn(0)
+  }
 
   return (
     <div className="">
@@ -147,12 +163,34 @@ const ExampleSidebar = function () {
                           <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
                             <Icon component={HiHome} /> Passageiros
                           </NavLink>
+                          <div className="flex items-center gap-3 bg-primary-600">
+
+                            <Menu shadow="md" width={200}>
+                              {user?.username && <Menu.Target>
+                                <div className="flex cursor-pointer items-center gap-3 rounded border px-3 py-2 hover:bg-gray-100">
+                                  <span className=" lg:flex">{user.username || "email"}</span>
+                                  <BiUser className="h-6 w-6" />
+                                </div>
+                              </Menu.Target>}
+                              <Menu.Dropdown>
+                                <Menu.Label>Usúario</Menu.Label>
+                                <Menu.Item icon={<IconUser size={14} />} onClick={() => navigate("meu-perfil")}>Perfil</Menu.Item>
+                                <Menu.Divider />
+                                <Menu.Item color="red" onClick={() => {
+                                  logout()
+                                }} icon={<IconLogout size={14} />}>Sair</Menu.Item>
+                              </Menu.Dropdown>
+                            </Menu>
+                            {/* <DarkThemeToggle /> */}
+                          </div>
                         </div> :
                         roles.name === "ROLE_TERMINAL" ?
                           <div key={roles.name}>
 
                           </div> : null
                   ))}
+
+
 
 
                 </Sidebar.ItemGroup>
