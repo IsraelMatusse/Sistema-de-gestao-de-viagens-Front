@@ -1,8 +1,19 @@
-import { TextField } from "@mui/material";
+import { ButtonGroup, MenuItem, TextField } from "@mui/material";
 import { Button, Modal } from "flowbite-react";
-import { FC, useState } from "react";
-import { HiOutlineDocumentAdd } from "react-icons/hi";
-import * as Yup from "yup"
+import { FC, useEffect, useState } from "react";
+import { HiOutlineClipboardCheck, HiOutlineDocumentAdd } from "react-icons/hi";
+import * as Yup from "yup";
+import { PHONEREGEX } from "../../util/PhoneRegex";
+import { useFormik } from "formik";
+import { GET } from "../../data/client/httpclient";
+import { API_ENDPOINTS } from "../../data/client/Endpoints";
+import { error_client_side, success_server_side } from "../../util/Notifications";
+import { LoadingButton } from "@mui/lab";
+import { Genero } from "../../models/Genero";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 const DetalhesViagem = function () {
 
     return (
@@ -30,11 +41,76 @@ const DetalhesViagem = function () {
 const PassageiroModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
 
+    const [generos, setGeneros] = useState<Genero[]>([])
+
     const cadastroPassageiroSchema = Yup.object().shape({
         nome: Yup.string().required(),
+        apelido: Yup.string().required(),
+        data_nascimento: Yup.string().required(),
+        bairro: Yup.string().required(),
+        email: Yup.string().email().required(),
+        codigo_provincia: Yup.string().required(),
+        codigo_distrito: Yup.string().required(),
+        numero_documento: Yup.string().required(),
+        id_genero: Yup.number().required(),
+        msisdn: Yup.string().matches(PHONEREGEX),
+        id_tipo_documento: Yup.number().required(),
+        data_validade: Yup.string().required(),
+        designacao: Yup.string().required(),
+        peso: Yup.number().required(),
+        codigo_viagem: Yup.string().required(),
     })
 
+    const cadastroPassageiroFormik = useFormik({
+        initialValues: {
+            nome: null,
+            apelido: null,
+            data_nascimento: null,
+            bairro: null,
+            email: null,
+            codigo_provincia: null,
+            codigo_distrito: null,
+            numero_documento: null,
+            id_genero: null,
+            msisdn: null,
+            id_tipo_documento: null,
+            data_validade: null,
+            designacao: null,
+            peso: null,
+            codigo_viagem: null,
+        }, validationSchema: cadastroPassageiroSchema,
+        onSubmit(values, { setSubmitting, resetForm }) {
+            cadastroPassageiroPost(values, setSubmitting, resetForm)
+        },
+    })
 
+    const cadastroPassageiroPost = (values, SetSubmitting, resetForm) => {
+        GET(API_ENDPOINTS.CADASTRAR_PASSAGEIRO_VIAGEM, values)
+            .then(() => {
+                success_server_side("Passageiro Cadastrado")
+                resetForm
+                SetSubmitting(false)
+            })
+            .catch((err) => {
+                SetSubmitting(false)
+                error_client_side(err.response.data.data)
+            })
+    }
+
+    const getGeneros = () => {
+        GET(API_ENDPOINTS.LISTAR_GENEROS, true)
+            .then((res) => {
+                setGeneros(res.data.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+
+    useEffect(() => {
+        getGeneros()
+    }, [isOpen])
     return (
         <>
             <Button color="primary" onClick={() => setOpen(true)}>
@@ -46,121 +122,111 @@ const PassageiroModal: FC = function () {
 
             <div >
                 <Modal onClose={() => setOpen(false)} show={isOpen} size="md" >
-                    <Modal.Header className="mt-40 px-6 pb-0 pt-6">
+                    <Modal.Header className="mt-40 px-4 pb-0 pt-6">
                         <span className="sr-only">Cadastrar Passageiro</span>
                     </Modal.Header>
-                    <Modal.Body className="px-6 pt-0 pb-6">
+                    <Modal.Body className="px-4 pb-6 pt-0">
                         <div className="flex flex-col items-center gap-y-6 text-center">
-                            {
-                                /**
-                                 * <form onSubmit={requisitarMatriculaAdd.handleSubmit}>
+
+                            <form onSubmit={cadastroPassageiroFormik.handleSubmit}>
                                 <h1 className="mb-3 text-center text-xl font-semibold dark:text-white md:text-3xl">
-                                    Escolha a Instituição e o Curso
+                                    Cadastrar
                                 </h1>
                                 <div className="flex flex-col gap-4">
+                                    <div className="flex flex-row gap-4">
+
+                                        <div className="flex basis-2/4">
+                                            <TextField
+                                                id="outlined-select-currency"
+                                                size="small"
+                                                fullWidth
+                                                onBlur={cadastroPassageiroFormik.handleBlur}
+                                                value={cadastroPassageiroFormik.values.nome}
+                                                error={cadastroPassageiroFormik.errors.nome && cadastroPassageiroFormik.touched.nome ? true : false}
+                                                helperText={cadastroPassageiroFormik.errors.nome && cadastroPassageiroFormik.touched.nome && "Introduza o seu nome"}
+                                                name="nome"
+                                                label="Nome"
+
+                                            />
+                                        </div>
+
+                                        <div className="flex basis-2/4">
+                                            <TextField
+                                                id="outlined-select-currency"
+                                                size="small"
+                                                fullWidth
+                                                onBlur={cadastroPassageiroFormik.handleBlur}
+                                                value={cadastroPassageiroFormik.values.apelido}
+                                                error={cadastroPassageiroFormik.errors.apelido && cadastroPassageiroFormik.touched.apelido ? true : false}
+                                                helperText={cadastroPassageiroFormik.errors.apelido && cadastroPassageiroFormik.touched.apelido && "Introduza o seu apelido"}
+                                                name="apelido"
+                                                label="Apelido"
+
+                                            />
+                                        </div>
+
+                                    </div>
+
+                                    <div className="flex flex-row gap-4">
+
+                                        <div className="flex basis-2/4">
+                                            <TextField
+                                                id="outlined-select-currency"
+                                                size="small"
+                                                select
+                                                fullWidth
+                                                onChange={cadastroPassageiroFormik.handleChange}
+                                                onBlur={cadastroPassageiroFormik.handleBlur}
+                                                value={cadastroPassageiroFormik.values.id_genero}
+                                                error={cadastroPassageiroFormik.errors.id_genero && cadastroPassageiroFormik.touched.id_genero ? true : false}
+                                                helperText={cadastroPassageiroFormik.errors.id_genero && cadastroPassageiroFormik.touched.id_genero && "Selecione o género"}
+                                                name="id_genero"
+                                                label="Genero"
+                                            >
+                                                {generos.map((option: Genero) => (
+                                                    <MenuItem key={option.id} value={option.id}>
+                                                        {option.designacao}
+                                                    </MenuItem>
+                                                ))}
+                                            </TextField>
+                                        </div>
+
+                                        <div className="flex basis-2/4">
+                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+                                                <DatePicker
+
+                                                    label="Data de Nascimento"
+                                                    format="DD-MM-YYYY"
+                                                    slotProps={{ textField: { size: 'small' } }}
+                                                    onChange={(newValue: any) => {
+                                                        const data_nascimento = newValue.$d.toISOString();
+                                                        cadastroPassageiroFormik.setFieldValue("data_nascimento", data_nascimento)
+                                                    }}
+                                                />
+
+                                            </LocalizationProvider>
+                                        </div>
+
+                                    </div>
 
 
-                                    <TextField
-                                        id="outlined-select-currency"
-                                        size="small"
-                                        select
-                                        fullWidth
-                                        onChange={(event) => {
-                                            requisitarMatriculaAdd.setFieldValue("codigo_sucursal", event.target.value)
-                                            getCursosSucursal(event.target.value);
-
-                                        }}
-                                        onBlur={requisitarMatriculaAdd.handleBlur}
-                                        value={requisitarMatriculaAdd.values.codigo_sucursal}
-                                        name="codigo_sucursal"
-                                        label="Instituição pretendida"
-                                    >
-                                        {sucursaisSup.map((option: Sucursal) => (
-                                            <MenuItem key={option.id} value={option.codigo_instituicao}>
-                                                {option.designacao}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-
-                                    <TextField
-                                        id="outlined-select-currency"
-                                        size="small"
-                                        select
-                                        fullWidth
-                                        onChange={(event) => {
-                                            requisitarMatriculaAdd.setFieldValue("codigo_curso", event.target.value)
-                                            getDisciplinasCurso(event.target.value);
-
-                                        }}
-                                        onBlur={requisitarMatriculaAdd.handleBlur}
-                                        value={requisitarMatriculaAdd.values.codigo_curso}
-                                        name="codigo_curso"
-                                        label="Curso pretendido"
-                                    >
-                                        {cursosSucursal.map((option: Curso) => (
-                                            <MenuItem key={option.codigo_curso} value={option.codigo_curso}>
-                                                {option.designacao_curso}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-
-                                </div>
-                                {requisitarMatriculaAdd.values.codigo_curso !== null && <div className="my-4">
-                                    <Table className="divide-gray-200 dark:divide-gray-600 md:min-w-full divide-y">
-                                        <Table.Head className=" w-fit bg-gray-100 dark:bg-gray-700">
-                                            <Table.HeadCell>Disciplinas para Exames de Admissão</Table.HeadCell>
-                                        </Table.Head>
-                                        <Table.Body className="divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800 divide-y">
-                                            {disciplinaAdmissao.map((disciplinaAdmissao: DisciplinaCurso) =>
-
-                                                <Table.Row key={disciplinaAdmissao.disciplina_designacao} className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                    <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-                                                        {disciplinaAdmissao.disciplina_designacao}
-                                                    </Table.Cell>
-                                                </Table.Row>
-                                            )}
-                                        </Table.Body>
-                                    </Table>
-
-                                </div>}
 
 
-                                <div className="flex flex-row gap-2 my-4">
+                                    <div className="mt-10 flex justify-end align-bottom">
+                                        <ButtonGroup
+                                            variant="contained"
+                                            aria-label="Disabled elevation buttons"
+                                        >
 
-                                    <TextField
-                                        id="outlined-select-currency"
-                                        size="small"
-                                        select
-                                        fullWidth
-                                        onChange={requisitarMatriculaAdd.handleChange}
-                                        onBlur={requisitarMatriculaAdd.handleBlur}
-                                        value={requisitarMatriculaAdd.values.codigo_provincia_exame}
-                                        error={requisitarMatriculaAdd.errors.codigo_provincia_exame && requisitarMatriculaAdd.touched.codigo_provincia_exame ? true : false}
-                                        helperText={requisitarMatriculaAdd.errors.codigo_provincia_exame && requisitarMatriculaAdd.touched.codigo_provincia_exame && "Selecione a província para frequência!"}
-                                        name="codigo_provincia_exame"
-                                        label="Provincia para frequência"
-                                    >
-                                        {provincias.map((option: Provincia) => (
-                                            <MenuItem key={option.id} value={option.codigo}>
-                                                {option.designacao}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
+                                            <LoadingButton disabled={!cadastroPassageiroFormik.isValid} type="submit" variant="contained" loading={cadastroPassageiroFormik.isSubmitting} endIcon={<HiOutlineClipboardCheck />} > Candidatar-se   </LoadingButton>
+                                        </ButtonGroup>
 
-                                </div>
-                                <div className="flex justify-end align-bottom mt-10">
-                                    <ButtonGroup
-                                        variant="contained"
-                                        aria-label="Disabled elevation buttons"
-                                    >
-
-                                        <LoadingButton disabled={!requisitarMatriculaAdd.isValid} type="submit" variant="contained" loading={requisitarMatriculaAdd.isSubmitting} endIcon={<HiOutlineClipboardCheck />} > Candidatar-se   </LoadingButton>
-                                    </ButtonGroup>
-
+                                    </div>
                                 </div>
                             </form>
-                                 */
-                            }
+
+
                         </div>
                     </Modal.Body>
                 </Modal>
