@@ -24,10 +24,15 @@ export const API_ENDPOINTS = {
     LISTAR_MOTORISTAS: `${BASE_URL}/motoristas`,
     LISTAR_TIPOS_LICENCA: `${BASE_URL}/tipos-licenca`,
     LISTAR_DISTRITOS: `${BASE_URL}/distritos`,
+    TIPO_DOCUMENTO: `${BASE_URL}/tipo-documentos`,
+
 
     //get with params
     ASSOCIACAO_VIATURA: (codigo_associacao: any) => `${BASE_URL}/associacoes/viaturas?codigoAssociacao=${codigo_associacao}`,
-    LISTAR_DISTRITOS_DA_PROVINCIA: (codigo_provincia: number) => `${BASE_URL}/distritos/p/${codigo_provincia}`,
+    LISTAR_DISTRITOS_DA_PROVINCIA: (codigo_provincia: number) => `${BASE_URL}/distritos/${codigo_provincia}`,
+    DETALHES_DA_VIAGEM: (codigo_viagem: any) => `${BASE_URL}/viagens/${codigo_viagem}`,
+    VIAJANTES_DA_VIAGEM: (codigo_viagem: any) => `${BASE_URL}/viagens/${codigo_viagem}/viajantes`,
+
 
     //post endpoints
 
