@@ -59,7 +59,7 @@ const MainContentFooter: FC = function () {
         </div>
       </Footer>
       <p className="my-8 text-center text-sm text-gray-500 dark:text-gray-300">
-        &copy; 2019-2023 Netline.com. All rights reserved.
+        &copy; 2019-2023 Israel Matusse All rights reserved.
       </p>
     </>
   );

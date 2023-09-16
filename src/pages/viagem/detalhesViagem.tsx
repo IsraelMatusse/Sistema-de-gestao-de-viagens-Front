@@ -124,6 +124,7 @@ const PassageiroModal: FC = function () {
         designacao: Yup.string().required(""),
         peso: Yup.number().required(""),
         codigo_viagem: Yup.string().required(""),
+        contacto_emergencia:Yup.string().matches(PHONEREGEX, "")
     })
 
     const cadastroPassageiroFormik = useFormik({
@@ -143,6 +144,7 @@ const PassageiroModal: FC = function () {
             designacao: null,//
             peso: null,//
             codigo_viagem: codigo,//
+            contacto_emergencia:null//
         }, validationSchema: cadastroPassageiroSchema,
         onSubmit(values, { setSubmitting, resetForm }) {
             cadastroPassageiroPost(values, setSubmitting, resetForm)
@@ -510,6 +512,20 @@ const PassageiroModal: FC = function () {
                                                 label="E-mail"
                                             />
                                         </div>
+
+                                        <div className="flex basis-2/4">
+                                            <TextField
+                                                size="small"
+                                                onChange={cadastroPassageiroFormik.handleChange}
+                                                onBlur={cadastroPassageiroFormik.handleBlur}
+                                                value={cadastroPassageiroFormik.values.contacto_emergencia}
+                                                error={cadastroPassageiroFormik.errors.contacto_emergencia && cadastroPassageiroFormik.touched.email ? true : false}
+                                                helperText={cadastroPassageiroFormik.errors.contacto_emergencia && cadastroPassageiroFormik.touched.email && "Introsuza um contacto valido"}
+                                                name="contacto_emergencia"
+                                                fullWidth
+                                                label="Contacto de Emergencia"
+                                            />
+                                        </div>
                                     </div>
 
                                     <div className="mt-10 flex justify-end align-bottom">
@@ -544,6 +560,8 @@ const PassageirosTable: FC = function ({ viajantes }) {
                 <Table.HeadCell>Apelido</Table.HeadCell>
                 <Table.HeadCell>Data de Nascimento</Table.HeadCell>
                 <Table.HeadCell>E-mail</Table.HeadCell>
+                <Table.HeadCell>Contacto</Table.HeadCell>
+                <Table.HeadCell>Contacto de emergencia</Table.HeadCell>
 
             </Table.Head>
             <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
@@ -563,6 +581,12 @@ const PassageirosTable: FC = function ({ viajantes }) {
 
                         <Table.Cell>
                             {viajante.email}
+                        </Table.Cell>
+                        <Table.Cell>
+                            {viajante.contacto}
+                        </Table.Cell>
+                        <Table.Cell>
+                            {viajante.contacto_emergencia}
                         </Table.Cell>
 
                     </Table.Row>

@@ -9,7 +9,6 @@ import { atom, useAtom } from 'jotai'
 import { useNavigate } from "react-router";
 import { BiUser } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
-import type { SucursalFuncionario } from "../models/SucursalFuncionario";
 import { sucursalLogo, sucursalState, usuarioOnlineAssociacaoCodigo } from "../atom/ApplicationStateAtoms";
 import { MenuItem, TextField } from "@mui/material";
 import { GET } from "../data/client/httpclient";

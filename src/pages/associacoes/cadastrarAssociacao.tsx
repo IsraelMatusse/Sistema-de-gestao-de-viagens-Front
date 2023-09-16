@@ -107,7 +107,7 @@ const CadastrarAssociacao = function () {
                                         helperText={cadastrarAssociacaoFormik.errors.designacao && cadastrarAssociacaoFormik.touched.designacao && "Coloque uma designação válida"}
                                         name="designacao"
                                         fullWidth
-                                        label="Designação do Departamento"
+                                        label="Designação da Associação"
                                     />
 
                                     <TextField
