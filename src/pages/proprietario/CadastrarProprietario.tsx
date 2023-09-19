@@ -17,29 +17,41 @@ import { Distrito } from "../../models/Distrito";
 
 
 
-const CadastrarTerminal = function () {
+const CadastrarProprietario = function () {
     const [provincias, setProvincias] = useState<Provincias[]>([]);
-    const [distrito, setDistrito] = useState<Distrito[]>([])
-    const [rotas, setRotas] = useState<Rota[]>([]);
+    const [distrito, setDistrito] = useState<Distrito[]>([]);
+    
 
-    const cadastrarTerminalSchema = Yup.object().shape({
-        designacao: Yup.string().required(),
+
+    const cadastrarProprietarioSchema = Yup.object().shape({
+        nome: Yup.string().required(),
         msisdn: Yup.string().matches(PHONEREGEX, "Número Inválido"),
-        email: Yup.string().email().required(),
         nuit: Yup.number(),
         codigo_provincia: Yup.number().required(),
         codigo_distrito: Yup.number().required(),
+        designacao_provincia:Yup.string().required(),
+        numero_documento:Yup.string().required(),
+        designacao_tipo_proprietario:Yup.string().required(),
+        data_validade:Yup.date().required(),
+        codigo_tipo_proprietario:Yup.string().required(),
+        id_tipo_documento:Yup.number().required()
     })
 
-    const cadastrarTerminalFormik = useFormik({
+    const cadastrarProprietarioFormik = useFormik({
         initialValues: {
-            designacao: null,
+            nome: null,
             msisdn: null,
             email: null,
             nuit: null,
             codigo_provincia: null,
             codigo_distrito: null,
-        }, validationSchema: cadastrarTerminalSchema,
+            numero_documento:null,
+            id_genero:null,
+            msidsn:null,
+            data_validade:null,
+            codigo_tipo_proprietario:null,
+            id_tipo_documento:null
+        }, validationSchema: cadastrarProprietarioSchema,
         onSubmit(values, { setSubmitting, resetForm }) {
             cadastrarTerminalPost(values, setSubmitting, resetForm);
         },
@@ -49,7 +61,7 @@ const CadastrarTerminal = function () {
     const cadastrarTerminalPost = (values: any, SetSubmitting: any, ResetForm: any) => {
         POST(API_ENDPOINTS.CADASTRAR_TERMINAL, values, true)
             .then(() => {
-                success_server_side("Terminal Cadastrada!")
+                success_server_side("Proprietario Cadastrado!")
                 SetSubmitting(false)
                 ResetForm
             })
@@ -79,54 +91,38 @@ const CadastrarTerminal = function () {
             })
     }
 
-    const getRotas = () => {
-        GET(API_ENDPOINTS.LISTAR_ROTAS, true)
-            .then((res) => {
-                setRotas(res.data.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
-
-
-    useEffect(() => {
-        getProvincias()
-        getRotas()
-    }, [])
-
     return (
         <div>
             <div className="mt-7 block items-center justify-between border-b border-gray-200 bg-white p-4">
                 <div className="mb-1 w-full px-2">
                     <div className="mb-4">
                         <h1 className="text-xl font-semibold text-gray-900  sm:text-2xl">
-                            Adicionar Terminal
+                            Adicionar Proprietario
                         </h1>
                     </div>
                     <div className="mt-7 flex w-full">
-                        <form onSubmit={cadastrarTerminalFormik.handleSubmit} className="flex w-full flex-col gap-5">
+                        <form onSubmit={cadastrarProprietarioFormik.handleSubmit} className="flex w-full flex-col gap-5">
                             <div className="">
                                 <div className="flex w-full flex-col gap-4">
                                     <TextField
                                         size="small"
-                                        onChange={cadastrarTerminalFormik.handleChange}
-                                        onBlur={cadastrarTerminalFormik.handleBlur}
-                                        value={cadastrarTerminalFormik.values.designacao}
-                                        error={cadastrarTerminalFormik.errors.designacao && cadastrarTerminalFormik.touched.designacao ? true : false}
-                                        helperText={cadastrarTerminalFormik.errors.designacao && cadastrarTerminalFormik.touched.designacao && "Coloque uma designação válida"}
-                                        name="designacao"
+                                        onChange={cadastrarProprietarioFormik.handleChange}
+                                        onBlur={cadastrarProprietarioFormik.handleBlur}
+                                        value={cadastrarProprietarioFormik.values.nome}
+                                        error={cadastrarProprietarioFormik.errors.nome && cadastrarProprietarioFormik.touched.nome ? true : false}
+                                        helperText={cadastrarProprietarioFormik.errors.nome && cadastrarProprietarioFormik.touched.nome && "Coloque um nome valido"}
+                                        name="Nome"
                                         fullWidth
-                                        label="Designação"
+                                        label="Nome"
                                     />
 
                                     <TextField
                                         size="small"
-                                        onChange={cadastrarTerminalFormik.handleChange}
-                                        onBlur={cadastrarTerminalFormik.handleBlur}
-                                        value={cadastrarTerminalFormik.values.nuit}
-                                        error={cadastrarTerminalFormik.errors.nuit && cadastrarTerminalFormik.touched.designacao ? true : false}
-                                        helperText={cadastrarTerminalFormik.errors.nuit && cadastrarTerminalFormik.touched.designacao && "Coloque um NUIT valido"}
+                                        onChange={cadastrarProprietarioFormik.handleChange}
+                                        onBlur={cadastrarProprietarioFormik.handleBlur}
+                                        value={cadastrarProprietarioFormik.values.nuit}
+                                        error={cadastrarProprietarioFormik.errors.nuit && cadastrarProprietarioFormik.touched.nuit ? true : false}
+                                        helperText={cadastrarProprietarioFormik.errors.nuit && cadastrarProprietarioFormik.touched.nuit && "Coloque um NUIT valido"}
                                         name="nuit"
                                         fullWidth
                                         label="NUIT"
@@ -139,12 +135,12 @@ const CadastrarTerminal = function () {
                                         fullWidth
                                         onChange={(e) => {
                                             getDistritos(e.target.value)
-                                            cadastrarTerminalFormik.setFieldValue("codigo_provincia", e.target.value)
+                                            cadastrarProprietarioFormik.setFieldValue("codigo_provincia", e.target.value)
                                         }}
-                                        onBlur={cadastrarTerminalFormik.handleBlur}
-                                        value={cadastrarTerminalFormik.values.codigo_provincia}
-                                        error={cadastrarTerminalFormik.errors.codigo_provincia && cadastrarTerminalFormik.touched.codigo_provincia ? true : false}
-                                        helperText={cadastrarTerminalFormik.errors.codigo_provincia && cadastrarTerminalFormik.touched.codigo_provincia && "Seleccione a Província"}
+                                        onBlur={cadastrarProprietarioFormik.handleBlur}
+                                        value={cadastrarProprietarioFormik.values.codigo_provincia}
+                                        error={cadastrarProprietarioFormik.errors.codigo_provincia && cadastrarProprietarioFormik.touched.codigo_provincia ? true : false}
+                                        helperText={cadastrarProprietarioFormik.errors.codigo_provincia && cadastrarProprietarioFormik.touched.codigo_provincia && "Seleccione a Província"}
                                         name="codigo_provincia"
                                         label="Província"
                                     >
@@ -160,11 +156,11 @@ const CadastrarTerminal = function () {
                                         size="small"
                                         select
                                         fullWidth
-                                        onChange={cadastrarTerminalFormik.handleChange}
-                                        onBlur={cadastrarTerminalFormik.handleBlur}
-                                        value={cadastrarTerminalFormik.values.codigo_distrito}
-                                        error={cadastrarTerminalFormik.errors.codigo_distrito && cadastrarTerminalFormik.touched.codigo_distrito ? true : false}
-                                        helperText={cadastrarTerminalFormik.errors.codigo_distrito && cadastrarTerminalFormik.touched.codigo_distrito && "Seleccione o Distrito!"}
+                                        onChange={cadastrarProprietarioFormik.handleChange}
+                                        onBlur={cadastrarProprietarioFormik.handleBlur}
+                                        value={cadastrarProprietarioFormik.values.codigo_distrito}
+                                        error={cadastrarProprietarioFormik.errors.codigo_distrito && cadastrarProprietarioFormik.touched.codigo_distrito ? true : false}
+                                        helperText={cadastrarProprietarioFormik.errors.codigo_distrito && cadastrarProprietarioFormik.touched.codigo_distrito && "Seleccione o Distrito!"}
                                         name="codigo_distrito"
                                         label="Distrito"
                                     >
@@ -177,33 +173,32 @@ const CadastrarTerminal = function () {
 
                                     <TextField
                                         size="small"
-                                        onChange={cadastrarTerminalFormik.handleChange}
-                                        onBlur={cadastrarTerminalFormik.handleBlur}
-                                        value={cadastrarTerminalFormik.values.email}
-                                        error={cadastrarTerminalFormik.errors.email && cadastrarTerminalFormik.touched.email ? true : false}
-                                        helperText={cadastrarTerminalFormik.errors.email && cadastrarTerminalFormik.touched.email && "Coloque um e-mail válido"}
-                                        name="email"
+                                        onChange={cadastrarProprietarioFormik.handleChange}
+                                        onBlur={cadastrarProprietarioFormik.handleBlur}
+                                        value={cadastrarProprietarioFormik.values.email}
+                                        error={cadastrarProprietarioFormik.errors.email && cadastrarProprietarioFormik.touched.email ? true : false}
+                                        helperText={cadastrarProprietarioFormik.errors.email && cadastrarProprietarioFormik.touched.email && "Coloque um contacto válido"}
+                                        name="Contacto"
                                         fullWidth
-                                        label="E-mail do Terminal"
+                                        label="Contacto do proprietario"
                                     />
 
                                     <TextField
                                         size="small"
-                                        onChange={cadastrarTerminalFormik.handleChange}
-                                        onBlur={cadastrarTerminalFormik.handleBlur}
-                                        value={cadastrarTerminalFormik.values.msisdn}
-                                        error={cadastrarTerminalFormik.errors.msisdn && cadastrarTerminalFormik.touched.msisdn ? true : false}
-                                        helperText={cadastrarTerminalFormik.errors.msisdn && cadastrarTerminalFormik.touched.msisdn && "Coloque uma contacto válido"}
-                                        name="msisdn"
+                                        onChange={cadastrarProprietarioFormik.handleChange}
+                                        onBlur={cadastrarProprietarioFormik.handleBlur}
+                                        value={cadastrarProprietarioFormik.values.msisdn}
+                                        error={cadastrarProprietarioFormik.errors.msisdn && cadastrarProprietarioFormik.touched.msisdn ? true : false}
+                                        helperText={cadastrarProprietarioFormik.errors.msisdn && cadastrarProprietarioFormik.touched.msisdn && "Coloque um numero de documento"}
+                                        name="numero_documento"
                                         fullWidth
-                                        label="Número de Telefone"
+                                        label="Número de documento"
                                     />
-
-
+                                
                                 </div>
                             </div>
-                            <LoadingButton type="submit" variant="contained" loading={cadastrarTerminalFormik.isSubmitting} disableElevation={true} disabled={!cadastrarTerminalFormik.isValid}>
-                                Cadastrar Associação
+                            <LoadingButton type="submit" variant="contained" loading={cadastrarProprietarioFormik.isSubmitting} disableElevation={true} disabled={!cadastrarProprietarioFormik.isValid}>
+                                Cadastrar Proprietario
                             </LoadingButton>
                         </form>
                     </div>
@@ -213,4 +208,4 @@ const CadastrarTerminal = function () {
     )
 
 }
-export default CadastrarTerminal
+export default CadastrarProprietario;

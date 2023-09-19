@@ -4,18 +4,18 @@ import {
     Table,
 } from "flowbite-react";
 import { useEffect, useState } from "react";
-import type { Terminal } from "../../models/Terminal";
 import { GET } from "../../data/client/httpclient";
 import { API_ENDPOINTS } from "../../data/client/Endpoints";
+import { Viajante } from "../../models/Viajante";
+import { proprietario } from "../../models/Proprietario";
 
+const Proprietarios = function () {
+    const [proprietarios, setProprietarios] = useState<proprietario[]>([]);
 
-const Terminais = function () {
-    const [terminais, setTerminais] = useState<Terminal[]>([]);
-
-    const getTerminais = () => {
-        GET(API_ENDPOINTS.LISTAR_TERMINAIS, true)
+    const getProprietarios = () => {
+        GET(API_ENDPOINTS.LISTAR_PROPRIETARIO, true)
             .then((res) => {
-                setTerminais(res.data.data)
+                setProprietarios(res.data.data)
             })
             .catch((err) => {
                 console.log(err)
@@ -23,7 +23,7 @@ const Terminais = function () {
     }
 
     useEffect(() => {
-        getTerminais()
+        getProprietarios()
     }, [])
 
     return (
@@ -34,7 +34,7 @@ const Terminais = function () {
 
                         <div className="">
                             <h1 className="text-left text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                               Terminais cadastradas
+                                Lista de Proprietarios
                             </h1>
                         </div>
                     </div>
@@ -44,7 +44,7 @@ const Terminais = function () {
                 <div className="overflow-x-auto">
                     <div className="inline-block min-w-full align-middle">
                         <div className="overflow-hidden shadow">
-                            <TerminaisTable terminais={terminais} />
+                            <ProprietariosTable proprietarios={proprietarios} />
                         </div>
                     </div>
                 </div>
@@ -54,56 +54,61 @@ const Terminais = function () {
     );
 };
 
-
-
-const TerminaisTable = function ({ terminais }: any) {
+const ProprietariosTable = function ({ proprietarios }: any) {
 
 
     return (
         <Table className="divide-y divide-gray-200 dark:divide-gray-600 md:min-w-full">
             <Table.Head className=" w-fit bg-gray-100 dark:bg-gray-700">
-                <Table.HeadCell>Código</Table.HeadCell>
-                <Table.HeadCell>Designação</Table.HeadCell>
-                <Table.HeadCell>Email</Table.HeadCell>
-                <Table.HeadCell>Celular</Table.HeadCell>
-                <Table.HeadCell>Provincia</Table.HeadCell>
-                <Table.HeadCell>Distrito</Table.HeadCell>
+                <Table.HeadCell>Codigo</Table.HeadCell>   
+                <Table.HeadCell>Nome</Table.HeadCell>
+                <Table.HeadCell>Nuit</Table.HeadCell>
+                <Table.HeadCell>Tipo de proprietario</Table.HeadCell>
+                <Table.HeadCell>Ano de criacao</Table.HeadCell>
+                <Table.HeadCell>Numero de documento</Table.HeadCell>
+                <Table.HeadCell>Contacto</Table.HeadCell>
 
             </Table.Head>
             <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-                {terminais.map((terminal: Terminal) =>
-                    <Table.Row key={terminal.id}>
+                {proprietarios.map((proprietario: proprietario) =>
+                    <Table.Row key={proprietario.id}>
                         <Table.Cell>
-                            {terminal.codigo}
+                            {proprietario.codigo}
+                        </Table.Cell>
+                        <Table.Cell>
+                            {proprietario.nome}
                         </Table.Cell>
 
                         <Table.Cell>
-                            {terminal.designacao}
+                            {proprietario.nuit}
                         </Table.Cell>
 
                         <Table.Cell>
-                            {terminal.email}
+                            {proprietario.designacao_tipo_proprietario}
                         </Table.Cell>
 
                         <Table.Cell>
-                            {terminal.contacto}
+                            {proprietario.anocriacao}
                         </Table.Cell>
                         <Table.Cell>
-                            {terminal.provincia}
+                            {proprietario.numero_documento}
                         </Table.Cell>
                         <Table.Cell>
-                            {terminal.distrito}
+                            {proprietario.msidsn}
                         </Table.Cell>
+
                     </Table.Row>
 
                 )}
             </Table.Body>
         </Table>
     );
+
 };
 
 
 
 
 
-export default Terminais;
+
+export default Proprietarios;

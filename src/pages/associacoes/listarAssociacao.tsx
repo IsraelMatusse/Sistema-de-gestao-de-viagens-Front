@@ -87,7 +87,7 @@ const AssociacoesTable = function ({ associacoes }: any) {
                         </Table.Cell>
 
                         <Table.Cell>
-                            {associacao.designacaoLicenca}
+                            {associacao.designacao_licenca}
                         </Table.Cell>
 
                         <Table.Cell>

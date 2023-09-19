@@ -3,7 +3,7 @@ export interface Associacao {
     id: number,
     designacao: string,
     msisdn: number,
-    designacaoLicenca: string,
+    designacao_licenca: string,
     codigo: string,
     email: string
 }

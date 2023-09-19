@@ -4,18 +4,17 @@ import {
     Table,
 } from "flowbite-react";
 import { useEffect, useState } from "react";
-import type { Terminal } from "../../models/Terminal";
 import { GET } from "../../data/client/httpclient";
 import { API_ENDPOINTS } from "../../data/client/Endpoints";
+import { Viajante } from "../../models/Viajante";
 
+const Viajantes = function () {
+    const [viajantes, setViajantes] = useState<Viajante[]>([]);
 
-const Terminais = function () {
-    const [terminais, setTerminais] = useState<Terminal[]>([]);
-
-    const getTerminais = () => {
-        GET(API_ENDPOINTS.LISTAR_TERMINAIS, true)
+    const getViajantes = () => {
+        GET(API_ENDPOINTS.LISTAR_VIAJANTES, true)
             .then((res) => {
-                setTerminais(res.data.data)
+                setViajantes(res.data.data)
             })
             .catch((err) => {
                 console.log(err)
@@ -23,7 +22,7 @@ const Terminais = function () {
     }
 
     useEffect(() => {
-        getTerminais()
+        getViajantes()
     }, [])
 
     return (
@@ -34,7 +33,7 @@ const Terminais = function () {
 
                         <div className="">
                             <h1 className="text-left text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                               Terminais cadastradas
+                                Lista de passageiros
                             </h1>
                         </div>
                     </div>
@@ -44,7 +43,7 @@ const Terminais = function () {
                 <div className="overflow-x-auto">
                     <div className="inline-block min-w-full align-middle">
                         <div className="overflow-hidden shadow">
-                            <TerminaisTable terminais={terminais} />
+                            <ViajantesTable viajantes={viajantes} />
                         </div>
                     </div>
                 </div>
@@ -54,56 +53,57 @@ const Terminais = function () {
     );
 };
 
-
-
-const TerminaisTable = function ({ terminais }: any) {
+const ViajantesTable = function ({ viajantes }: any) {
 
 
     return (
         <Table className="divide-y divide-gray-200 dark:divide-gray-600 md:min-w-full">
             <Table.Head className=" w-fit bg-gray-100 dark:bg-gray-700">
-                <Table.HeadCell>Código</Table.HeadCell>
-                <Table.HeadCell>Designação</Table.HeadCell>
-                <Table.HeadCell>Email</Table.HeadCell>
-                <Table.HeadCell>Celular</Table.HeadCell>
-                <Table.HeadCell>Provincia</Table.HeadCell>
-                <Table.HeadCell>Distrito</Table.HeadCell>
+                <Table.HeadCell>Nome</Table.HeadCell>
+                <Table.HeadCell>Apelido</Table.HeadCell>
+                <Table.HeadCell>Data de Nascimento</Table.HeadCell>
+                <Table.HeadCell>E-mail</Table.HeadCell>
+                <Table.HeadCell>Contacto</Table.HeadCell>
+                <Table.HeadCell>Contacto de emergencia</Table.HeadCell>
 
             </Table.Head>
             <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-                {terminais.map((terminal: Terminal) =>
-                    <Table.Row key={terminal.id}>
+                {viajantes.map((viajante: Viajante) =>
+                    <Table.Row key={viajante.id}>
                         <Table.Cell>
-                            {terminal.codigo}
+                            {viajante.nome}
                         </Table.Cell>
 
                         <Table.Cell>
-                            {terminal.designacao}
+                            {viajante.apelido}
                         </Table.Cell>
 
                         <Table.Cell>
-                            {terminal.email}
+                            {viajante.data_nasicmento}
                         </Table.Cell>
 
                         <Table.Cell>
-                            {terminal.contacto}
+                            {viajante.email}
                         </Table.Cell>
                         <Table.Cell>
-                            {terminal.provincia}
+                            {viajante.contacto}
                         </Table.Cell>
                         <Table.Cell>
-                            {terminal.distrito}
+                            {viajante.contacto_emergencia}
                         </Table.Cell>
+
                     </Table.Row>
 
                 )}
             </Table.Body>
         </Table>
     );
+
 };
 
 
 
 
 
-export default Terminais;
+
+export default Viajantes;

@@ -4,4 +4,10 @@ export interface Motorista {
     anonascimento: number,
     email: string,
     codigo: string,
+    id:number,
+    numero_documento:string,
+    genero:string,
+    provincia:string
+    
+
 }

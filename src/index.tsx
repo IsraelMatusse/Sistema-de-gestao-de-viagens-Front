@@ -24,6 +24,11 @@ import Associacoes from "./pages/associacoes/listarAssociacao";
 import CadastrarTerminal from "./pages/terminais/cadastrarTerminal";
 import ListarViagens from "./pages/viagem/listarViagens";
 import DetalhesViagem from "./pages/viagem/detalhesViagem";
+import Terminais from "./pages/terminais/listarTerminais";
+import Viajantes from "./pages/viajantes/ListarViajante";
+import Proprietarios from "./pages/proprietario/ListarProprietario";
+import CadastrarProprietario from "./pages/proprietario/CadastrarProprietario";
+import Motoristas from "./pages/motorista/ListaMotorista";
 
 
 const container = document.getElementById("root");
@@ -73,7 +78,26 @@ const router = createBrowserRouter([
         path: "terminais/cadastrar",
         element: <CadastrarTerminal />
       },
-
+      {
+        path: "terminais",
+        element: <Terminais />
+      },
+      {
+        path: "viajantes",
+        element: <Viajantes />
+      },
+      {
+        path: "proprietarios",
+        element: <Proprietarios />
+      },
+      {
+        path: "proprietarios/cadastrar-proprietario",
+        element: <CadastrarProprietario />
+      },
+      {
+        path: "motoristas",
+        element: <Motoristas />
+      },
     ]
   },
   {

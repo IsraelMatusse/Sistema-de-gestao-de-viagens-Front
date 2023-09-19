@@ -25,7 +25,9 @@ export const API_ENDPOINTS = {
     LISTAR_TIPOS_LICENCA: `${BASE_URL}/tipos-licenca`,
     LISTAR_DISTRITOS: `${BASE_URL}/distritos`,
     TIPO_DOCUMENTO: `${BASE_URL}/tipo-documentos`,
-
+    LISTAR_TERMINAIS:`${BASE_URL}/terminais`,
+    LISTAR_VIAJANTES:`${BASE_URL}/viajantes`,
+    LISTAR_PROPRIETARIO:`${BASE_URL}/proprietarios`,
 
     //get with params
     ASSOCIACAO_VIATURA: (codigo_associacao: any) => `${BASE_URL}/associacoes/viaturas?codigoAssociacao=${codigo_associacao}`,

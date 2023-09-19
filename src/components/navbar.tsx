@@ -95,7 +95,7 @@ const ExampleNavbar = function () {
           <NavLink to={"/"} className="flex items-center lg:hidden">
             <img alt="" src="/images/logo.svg" className="mr-3 h-6 sm:h-8" />
             <span className="self-center whitespace-nowrap text-2xl font-semibold text-white dark:text-white">
-              FICA
+              SGV
             </span>
           </NavLink>
           <div className="flex items-center gap-3 bg-primary-600">

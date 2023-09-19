@@ -28,7 +28,6 @@ export default function CadastrarViagem() {
         saida: Yup.string().required("A viagem deve ter uma hora de partida"),
         prev_chegada: Yup.string().required("Defina a hora de chegada"),
         id_rota: Yup.number().required(),
-        codigo_associacao: Yup.string().required("Selecione a associacao"),
         codigo_motorista: Yup.string().required("Selecione o motorista"),
     })
 
@@ -40,7 +39,6 @@ export default function CadastrarViagem() {
             saida: null,
             prev_chegada: null,
             id_rota: null,
-            codigo_associacao: codigoAssociacao,
         },
         validationSchema: cadastroViagemSchema,
         onSubmit: (values, { setSubmitting, resetForm }) => {
@@ -93,7 +91,7 @@ export default function CadastrarViagem() {
 
     useEffect(() => {
         getViaturasAssociacao(codigoAssociacao)
-        cadastroViagemFormik.setFieldValue("codigo_associacao", codigoAssociacao)
+       
     }, [codigoAssociacao])
 
     const getViaturasAssociacao = (codigo_associacao) => {

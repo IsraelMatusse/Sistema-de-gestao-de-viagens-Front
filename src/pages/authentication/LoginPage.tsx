@@ -55,7 +55,7 @@ const LoginPage = function () {
           className="w-full md:max-w-screen-lg md:[&>*]:w-full md:[&>*]:p-16 [&>img]:hidden md:[&>img]:w-96 md:[&>img]:p-0 "
         >
           <h1 className="mb-3 text-2xl font-bold dark:text-white md:text-3xl">
-            Entrar
+          Sistema de gestão de Viagens
           </h1>
           <Formik
             initialValues={{
@@ -76,6 +76,7 @@ const LoginPage = function () {
               isSubmitting
             }) => (
               <form onSubmit={handleSubmit}>
+               
                 <div className="mb-4 flex flex-col gap-y-3">
                   <TextField
                     size="small"

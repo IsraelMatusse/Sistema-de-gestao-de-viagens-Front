@@ -5,6 +5,16 @@ import {
   HiOutlineNewspaper,
   HiSearch,
   HiUserGroup,
+  HiBookOpen,
+  HiViewList,
+  HiBookmark,
+  HiUser,
+  HiChartBar,
+  HiOutlineMail,
+  HiOutlineTable,
+  HiPaperAirplane,
+  HiOutlineUsers,
+  HiViewGrid
 } from "react-icons/hi";
 import {
   SlGraduation
@@ -132,23 +142,55 @@ const ExampleSidebar = function () {
                           <Icon component={HiHome} /> Início
                         </NavLink>
 
-                        <NavLink to={"terminais"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
-                          <Icon component={HiHome} /> Terminais
-                        </NavLink>
+                        <Sidebar.Collapse
+                          icon={HiPaperAirplane}
+                          label="Terminais"
+                        >
+                        <NavLink to={"terminais/cadastrar"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiBookmark} /> Cadastrar Terminais
+                          </NavLink>
+
+                          <NavLink to={"Terminais"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiViewList} /> Listar Terminais
+                          </NavLink>
+                          </Sidebar.Collapse>
 
                         <Sidebar.Collapse
                           icon={HiUserGroup}
                           label="Associações"
                         >
                           <NavLink to={"associacoes/cadastrar-associacoes"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
-                            <Icon component={HiHome} /> Cadastrar Associações
+                            <Icon component={HiBookmark} /> Cadastrar Associações
                           </NavLink>
 
                           <NavLink to={"associacoes"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
-                            <Icon component={HiHome} /> Listar Associações
+                            <Icon component={HiViewList} /> Listar Associações
                           </NavLink>
-
+                
                         </Sidebar.Collapse>
+                        <Sidebar.Collapse
+                          icon={HiViewList}
+                          label="Relatorios Gerais"
+                        >
+                             <NavLink to={"proprietarios"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineTable} /> Lista de todos Proprietarios
+                          </NavLink>
+                          <NavLink to={"motoristas"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineTable} /> Lista de Motoristas de todos motoristas
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineTable} /> Lista  de todas viaturas
+                          </NavLink>
+                        </Sidebar.Collapse>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiChartBar} /> Graficos
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiUser} /> Perfil
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineMail} /> Contacto
+                          </NavLink>
                       </div> :
                       roles.name === "ROLE_ASSOCIACAO" ?
                         <div key={roles.name}>
@@ -156,12 +198,34 @@ const ExampleSidebar = function () {
                             <Icon component={HiHome} /> Início
                           </NavLink>
 
+                          <Sidebar.Collapse
+                          icon={HiPaperAirplane}
+                          label="Viagens"
+                        >
+                          <NavLink to={"viagens/cadastrar-viagem"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiBookmark} /> Cadastrar Viagens
+                          </NavLink>
+
                           <NavLink to={"viagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
-                            <Icon component={HiHome} /> Viagens
+                            <Icon component={HiViewList} /> Listar Viagens
+                          </NavLink>
+                        </Sidebar.Collapse>
+
+                        <NavLink to={"viajantes"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineUsers} /> Lista de Passageiros
                           </NavLink>
 
                           <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
-                            <Icon component={HiHome} /> Passageiros
+                            <Icon component={HiOutlineTable} /> Tabelas de Relatorios
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiChartBar} /> Graficos
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiUser} /> Perfil
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineMail} /> Contacto
                           </NavLink>
                           <div className="flex items-center gap-3 bg-primary-600">
 
@@ -186,13 +250,54 @@ const ExampleSidebar = function () {
                         </div> :
                         roles.name === "ROLE_TERMINAL" ?
                           <div key={roles.name}>
+                             
+                        <NavLink to={"viajantes"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineUsers} /> Lista de Passageiros
+                          </NavLink>
+                          <Sidebar.Collapse
+                          icon={HiViewList}
+                          label="Fichas de cadastros"
+                        >
+                             <NavLink to={"proprietarios/cadastrar-proprietario"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineTable} /> Cadastro de Proprietarios de viaturas
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineTable} /> Cadastro de Viaturas
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineTable} /> Cadastro de Motoristas
+                          </NavLink>
+                        </Sidebar.Collapse>
+                        <Sidebar.Collapse
+                          icon={HiViewList}
+                          label="Relatorios do terminal"
+                        >
+                             <NavLink to={"proprietarios"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineTable} /> Lista de Proprietarios
+                          </NavLink>
+                          <NavLink to={"motoristas"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineTable} /> Lista de Motoristas do terminal
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineTable} /> Lista de Viaturas do terminal
+                          </NavLink>
+                        </Sidebar.Collapse>
+                        <NavLink to={"viagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiViewGrid} /> Listar Viagens
+                          </NavLink>
+
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiChartBar} /> Graficos
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiUser} /> Perfil
+                          </NavLink>
+                          <NavLink to={"passagens"} className={({ isActive }) => isActive ? "flex items-center gap-4 p-2 text-base bg-gray-100 dark:bg-gray-700 rounded" : "flex items-center gap-4 p-2 text-base text-gray-700 hover:bg-gray-100 rounded"}>
+                            <Icon component={HiOutlineMail} /> Contacto
+                          </NavLink>
 
                           </div> : null
                   ))}
-
-
-
-
                 </Sidebar.ItemGroup>
               </Sidebar.Items>
             </div>
